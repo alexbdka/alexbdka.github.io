@@ -1,98 +1,244 @@
-/* Reset & base */
-* {
+/* -------------------------------------------------------------------------- */
+/* CONFIGURATION & VARIABLES                                                  */
+/* -------------------------------------------------------------------------- */
+:root {
+  /* "Zinc" Color Palette (Dark Theme Standard) */
+  --background: #09090b;
+  --card-bg: transparent;
+  --card-border: #27272a;
+  --card-hover: #18181b;
+
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+
+  --badge-bg: #27272a;
+  --badge-text: #fafafa;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESET & BASE STYLES                                                        */
+/* -------------------------------------------------------------------------- */
+body {
+  background-color: var(--background);
+  /* Radial gradient: Creates a "spotlight" effect at top-center */
+  background-image: radial-gradient(
+    circle at 50% 0%,
+    #27272a 0%,
+    transparent 60%
+  );
+  background-attachment: fixed; /* Prevents gradient from scrolling on mobile */
+  color: var(--text-primary);
+  font-family: "Inter", sans-serif;
   margin: 0;
-  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-font-smoothing: antialiased; /* Crisp text on MacOS/iOS */
+}
+
+/* Main Container Layout */
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Fira Code", monospace;
-  background-color: #0e0e0e;
-  color: #f0f0f0;
-  line-height: 1.6;
+/* Mobile Optimization */
+@media (max-width: 640px) {
+  .container {
+    padding: 1.5rem; /* Less padding on small screens */
+    align-items: flex-start; /* Better alignment on tall mobile screens */
+    padding-top: 4rem;
+  }
 }
 
-/* Layout */
-header, footer {
-  background: #111;
-  padding: 1rem 2rem;
+/* -------------------------------------------------------------------------- */
+/* HEADER SECTION                                                             */
+/* -------------------------------------------------------------------------- */
+.header {
+  margin-bottom: 3rem;
+  animation: fade-in 0.8s ease-out forwards;
 }
 
-header h1 {
-  font-size: 1.8rem;
-  color: #00ff88;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1.2rem;
-  margin-top: 0.5rem;
-}
-
-nav a {
-  text-decoration: none;
-  color: #f0f0f0;
-  transition: color 0.2s;
-}
-
-nav a:hover {
-  color: #00ff88;
-}
-
-main {
-  padding: 2rem;
-}
-
-/* Hero */
-.hero {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.hero h2 {
-  font-size: 1.5rem;
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--badge-text);
+  background-color: var(--badge-bg);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px; /* Full pill shape */
+  border: 1px solid #3f3f46;
   margin-bottom: 1rem;
-  color: #00ff88;
+  user-select: none;
 }
 
-/* Grid of cards */
-.grid {
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.05em;
+  text-wrap: balance; /* Prevents typographic widows */
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.6;
+  text-wrap: balance;
+}
+
+/* Mobile Text Adjustment */
+@media (max-width: 640px) {
+  .title {
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+.socials {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.socials a {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.socials a:hover {
+  color: var(--text-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* PROJECTS GRID                                                              */
+/* -------------------------------------------------------------------------- */
+.projects-grid {
   display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  opacity: 0; /* Hidden initially for animation */
+  transform: translateY(20px);
+  animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.2s;
 }
 
+/* -------------------------------------------------------------------------- */
+/* CARD COMPONENT                                                             */
+/* -------------------------------------------------------------------------- */
 .card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.5rem;
   padding: 1.5rem;
-  transition: transform 0.2s, border-color 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  border-color: #00ff88;
-}
-
-.card h3 {
-  margin-bottom: 0.5rem;
-  color: #00ff88;
-}
-
-.card a {
-  color: #00ff88;
   text-decoration: none;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden; /* Contains internal animations */
 }
 
-.card a:hover {
-  text-decoration: underline;
+/* Interactive States */
+.card:hover,
+.card:focus-visible {
+  background-color: var(--card-hover);
+  border-color: #3f3f46;
+  transform: translateY(-2px);
+  outline: none;
 }
 
-footer {
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 3rem;
-  color: #aaa;
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+}
+
+/* Animated External Link Arrow */
+.external-link-icon {
+  margin-left: 6px;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.card:hover .external-link-icon,
+.card:focus-visible .external-link-icon {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.card-content p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-tag {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background-color: rgba(255, 255, 255, 0.05); /* Very subtle background */
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* ANIMATIONS                                                                 */
+/* -------------------------------------------------------------------------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
